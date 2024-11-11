@@ -1,10 +1,27 @@
-name: hello-world
-'on': push
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+
 jobs:
-  my-job:
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: my-step
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Test
+      run: dotnet test --configuration Release --no-build
