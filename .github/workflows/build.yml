@@ -24,3 +24,13 @@ jobs:
       uses: actions/run-command@v1
       with:
         command: dotnet build MyProject.csproj
+
+    - name: Checkout actions repository
+      uses: actions/checkout@v2
+      with:
+        repository: actions/checkout
+
+    - name: Run custom action
+      uses: ./path/to/custom/action
+      with:
+        command: echo "Hello, world!"
