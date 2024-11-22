@@ -1,27 +1,38 @@
-name: Build and Test
+name: Hello World Workflow
 
+# Trigger the workflow on push events to the main branch
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
+  say_hello:
+    runs-on:
+      group: az-nonprod
+      labels: [small, op-default]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
+      # Print "Hello, World!"
+      - name: Say Hello World
+        run: echo "Hello, World!"
 
-    - name: Restore Dependencies
-      run: dotnet restore
+  test_env:
+    environment: test
+    runs-on:
+      group: az-nonprod
+      labels: [small, op-default]
 
-    - name: Build
-      run: dotnet build --configuration Release
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Test
-      run: dotnet test --configuration Release --no-build
+      # Print "Hello, World!"
+      - name: Hello from test_env
+        run: echo "Hello from test_env!"
